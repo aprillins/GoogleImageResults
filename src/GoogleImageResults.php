@@ -1,12 +1,15 @@
 <?php namespace Aprillins\GoogleImageResults;
 
+use Aprillins\GoogleImageResults\AbstractClass\AbstractImageSearchOnSearchEngine;
+
 /**
-* GoogleImageResult - get the JSON data from ajax.googleapis.com
-* 
-* @package GoogleImageResults
-* @author aprillins the fox
-*/
-class GoogleImageResults
+ * GoogleImageResults main class 
+ *
+ * @author  aprillins the fox <aprillins@gmail.com>
+ * @license http://www.opensource.org/licenses/mit-license.php MIT
+ * @link    http://github.com/aprillins/GoogleImageResults
+ */
+class GoogleImageResults extends AbstractImageSearchOnSearchEngine
 {
     public $keyword;
     public $queryURL;
@@ -36,6 +39,11 @@ class GoogleImageResults
         $this->reconstructData();
     }
 
+    /**
+     * Set query/keyword to be searched
+     *
+     * @var $query
+     */
     function setQuery($query)
     {
         $query = urlencode($query);

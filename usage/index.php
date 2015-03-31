@@ -1,4 +1,5 @@
-<?php namespace Aprillins\GoogleImageResults\Usage;
+<?php 
+namespace Aprillins\GoogleImageResults\Usage;
 
 require __DIR__.'/../vendor/autoload.php';
 
