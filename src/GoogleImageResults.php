@@ -114,8 +114,7 @@ class GoogleImageResults extends AbstractImageSearchOnSearchEngine
         $numberOfResults = count($this->resultsDetail);
         $detail = $this->resultsDetail;
 
-        for($i = 0; $i < $numberOfResults; $i++)
-        {   
+        for($i = 0; $i < $numberOfResults; $i++){   
             $this->resultsDetailArray[] = [
                 'title'  => $detail[$i]->titleNoFormatting,
                 'url'    => $detail[$i]->unescapedUrl,
