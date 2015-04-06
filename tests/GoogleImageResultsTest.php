@@ -3,7 +3,8 @@
 use Aprillins\GoogleImageResults\GoogleImageResults;
 
 /**
-* 
+* Test for GoogleImageResults class
+*
 */
 class GoogleImageResultsTest extends PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,8 @@
 <?php namespace Aprillins\GoogleImageResults;
 
 use Aprillins\GoogleImageResults\AbstractClass\AbstractImageSearchOnSearchEngine;
+use Aprillins\GoogleImageResults\CommonClass\StaticFunctionsClass as StaticFunctions;
+use Aprillins\GoogleImageResults\CommonClass\QueryClass as Query;
 
 /**
  * GoogleImageResults main class 
@@ -11,45 +13,32 @@ use Aprillins\GoogleImageResults\AbstractClass\AbstractImageSearchOnSearchEngine
  */
 class GoogleImageResults extends AbstractImageSearchOnSearchEngine
 {
-    public $keyword;
-    public $queryURL;
-    public $resultStart;
-    public $jsonResponse;
-    public $resultsDetail;
+    private $keyword;
+    private $queryURL;
+    private $resultStart;
+    private $jsonResponse;
+    private $resultsDetail;
 
-    public $imageTitle;
-    public $imageURL;
-    public $imageWidth;
-    public $imageHeight;
-    public $imageWebsiteURL;
+    private $imageTitle;
+    private $imageURL;
+    private $imageWidth;
+    private $imageHeight;
+    private $imageWebsiteURL;
 
-    public $resultsDetailArray;
+    private $resultsDetailArray;
 
     /**
      * Set the keyword and fire all the needed things
      *
      * @var $keyword
      */
-    function __construct($keyword)
+    function __construct(Query $q)
     {
-        $this->keyword = $keyword;
-        $this->setQuery($keyword);
+        $this->keyword = $q->getKeyword();
+        $this->queryURL = $q->getQuery();
         $this->jsonResponse = $this->getGoogleImageJSONData();
         $this->setResultsDetail();
         $this->reconstructData();
-    }
-
-    /**
-     * Set query/keyword to be searched
-     *
-     * @var $query
-     */
-    function setQuery($query)
-    {
-        $query = urlencode($query);
-        $resultStart = 0;
-        $url = 'https://ajax.googleapis.com/ajax/services/search/images?'.'rsz=8&q='.$query.'&v=1.0&start='.$resultStart.'&imgsz=large';
-        $this->queryURL = $url;
     }
 
     /**
@@ -61,6 +50,16 @@ class GoogleImageResults extends AbstractImageSearchOnSearchEngine
     {
         $jsonResponseToArrayObject = json_decode($this->jsonResponse, false);
         $this->resultsDetail = $jsonResponseToArrayObject->responseData->results;
+    }
+
+    /**
+     * Get constructed data in array data type
+     * 
+     * @return array
+     */
+    function getResultsDetailArray()
+    {
+        return $this->resultsDetailArray;
     }
 
     /**
@@ -114,20 +113,69 @@ class GoogleImageResults extends AbstractImageSearchOnSearchEngine
         $numberOfResults = count($this->resultsDetail);
         $detail = $this->resultsDetail;
 
-        for($i = 0; $i < $numberOfResults; $i++){   
+        for($i = 0; $i < $numberOfResults; $i++){ 
             $this->resultsDetailArray[] = [
-                'title'  => $detail[$i]->titleNoFormatting,
-                'url'    => $detail[$i]->unescapedUrl,
-                'width'  => $detail[$i]->width,
-                'height' => $detail[$i]->height,
-                'website'=> $detail[$i]->visibleUrl
+                'title'     => $detail[$i]->titleNoFormatting,
+                'url'       => $detail[$i]->unescapedUrl,
+                'width'     => $detail[$i]->width,
+                'height'    => $detail[$i]->height,
+                'website'   => $detail[$i]->visibleUrl
             ];
-
             $this->imageTitle[$i] = $detail[$i]->titleNoFormatting;
             $this->imageURL[$i] = $detail[$i]->unescapedUrl;
             $this->imageWidth[$i] = $detail[$i]->width;
             $this->imageHeight[$i] = $detail[$i]->height;
             $this->imageWebsiteURL[$i] = $detail[$i]->visibleUrl;
         } 
+    }
+
+    /**
+     * Get image titles only from reconstructed data
+     * 
+     * @return array
+     */
+    function getImageTitle()
+    {
+        return $this->imageTitle;
+    }
+
+    /**
+     * Get image URLs only from reconstructed data
+     * 
+     * @return array
+     */
+    function getImageURL()
+    {
+        return $this->imageURL;
+    }
+
+    /**
+     * Get image widths only from reconstructed data
+     * 
+     * @return array
+     */
+    function getImageWidth()
+    {
+        return $this->imageWidth;
+    }
+
+    /**
+     * Get image heights only from reconstructed data
+     * 
+     * @return array
+     */
+    function getImageHeight()
+    {
+        return $this->imageHeight;
+    }
+
+    /**
+     * Get image website URLs only from reconstructed data
+     * 
+     * @return array
+     */
+    function getImageWebsiteURL()
+    {
+        return $this->imageWebsiteURL;
     }
 }

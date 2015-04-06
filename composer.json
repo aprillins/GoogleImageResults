@@ -1,7 +1,10 @@
 {
     "name": "aprillins/googleimageresults",
     "description": "Get google image results from Google API JSON response",
-    
+    "require": { 
+        "php": ">=5.4.0",
+        "danielstjules/stringy": "~1.8"
+    },
     "require-dev": {
         "phpunit/phpunit": "~4.5"
     },
@@ -12,9 +15,6 @@
             "email": "aprillins@gmail.com"
         }
     ],
-    "require": { 
-        "php": ">=5.4.0"
-    },
     "autoload": {
         "psr-4" : {
             "Aprillins\\GoogleImageResults\\": "src/"

@@ -1,20 +1,22 @@
-<?php 
-namespace Aprillins\GoogleImageResults\Usage;
+<?php namespace Aprillins\GoogleImageResults\Usage;
 
 require __DIR__.'/../vendor/autoload.php';
 
 use Aprillins\GoogleImageResults\GoogleImageResults as theGIS;
+use Aprillins\GoogleImageResults\CommonClass\QueryClass as Query;
 
-
-$gis = new theGIS('pedang dan golok');
+$querydata = new Query('pedang dan golok', 0, 'large');
+$gis = new theGIS($querydata);
+//$gis = new theGIS('pedang dan golok');
 
 echo '<pre>';
-foreach($gis->imageURL as $imageURL){
+$imageURLs = $gis->getImageURL();
+foreach($imageURLs as $imageURL){
     echo "$imageURL\n";
 }
 echo "\n\n\n";
 
-$images = $gis->resultsDetailArray;
+$images = $gis->getResultsDetailArray();
 
 foreach($images as $image){
     echo 'Title: '.$image['title']."\n";
@@ -24,3 +26,6 @@ foreach($images as $image){
     echo 'Website: '.$image['website']."\n\n";
 }
 echo '</pre>';
+
+
+
